@@ -33,6 +33,12 @@ async function run() {
     // Connect the client to the server
     await client.connect();
 
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+
     // collection create
     const database = client.db("sushidb");
     const sushiCollection = database.collection("sushi");
@@ -44,11 +50,36 @@ async function run() {
       res.send(result);
     });
 
+    // GET single sushi
+    app.get("/sushi/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await sushiCollection.findOne(query);
+      res.send(result);
+    });
+
     // POST - Add new sushi
     app.post("/sushi", async (req, res) => {
       console.log("Data received on server:", req.body);
       const newSushi = req.body;
       const result = await sushiCollection.insertOne(newSushi);
+      res.send(result);
+    });
+
+    // PUT - updated  sushi
+    app.put("/sushi/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const option = { upset: true };
+      const updatedSushi = req.body;
+      const updatedDoc = {
+        $set: updatedSushi,
+      };
+      const result = await sushiCollection.updateOne(
+        filter,
+        updatedDoc,
+        option
+      );
       res.send(result);
     });
 
@@ -59,12 +90,6 @@ async function run() {
       const result = await sushiCollection.deleteOne(query);
       res.send(result);
     });
-
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
   } finally {
   }
 }
