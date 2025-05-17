@@ -68,6 +68,13 @@ async function run() {
       res.send(result);
     });
 
+    // GET- All users
+    app.get("/users", async (req, res) => {
+      const cursor = usersCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //POST - Add new user
     app.post("/users", async (req, res) => {
       const newUsers = req.body;
