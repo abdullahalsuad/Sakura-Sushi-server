@@ -31,17 +31,19 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server
-    // await client.connect();
+    await client.connect();
 
     // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
+    await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
 
     // collection create
     const database = client.db("sushidb");
+
     const sushiCollection = database.collection("sushi");
+    const usersCollection = database.collection("users");
 
     // GET- All sushi
     app.get("/sushi", async (req, res) => {
@@ -66,6 +68,12 @@ async function run() {
       res.send(result);
     });
 
+    //POST - Add new user
+    app.post("/users", async (req, res) => {
+      const newUsers = req.body;
+      const result = await usersCollection.insertOne(newUsers);
+      res.send(result);
+    });
     // PUT - updated  sushi
     app.put("/sushi/:id", async (req, res) => {
       const id = req.params.id;
