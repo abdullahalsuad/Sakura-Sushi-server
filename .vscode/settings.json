@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["sakura", "sakurasushi", "sushidb"]
+  "cSpell.words": ["sakura", "sakurasushi", "sushidb"],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
