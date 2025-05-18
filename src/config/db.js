@@ -13,7 +13,6 @@ const client = new MongoClient(uri, {
 async function connectDB() {
   try {
     // await client.connect();
-
     console.log("MongoDB connected successfully");
     return client.db("sushidb");
   } catch (error) {
