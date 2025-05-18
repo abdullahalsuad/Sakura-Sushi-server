@@ -81,6 +81,7 @@ async function run() {
       const result = await usersCollection.insertOne(newUsers);
       res.send(result);
     });
+
     // PUT - updated  sushi
     app.put("/sushi/:id", async (req, res) => {
       const id = req.params.id;
