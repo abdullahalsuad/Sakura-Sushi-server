@@ -23,6 +23,16 @@ const createSushi = async (sushi) => {
   return result;
 };
 
+// Update sushi
+const updateSushi = async (id, updatedData) => {
+  const result = await sushiCollection.updateOne(
+    { _id: id },
+    { $set: updatedData },
+    { upsert: false } // or true if you want to insert if not found
+  );
+  return result;
+};
+
 // Delete a sushi by its id
 const deleteSushi = async (id) => {
   const result = await sushiCollection.deleteOne({ _id: id });
@@ -34,5 +44,6 @@ module.exports = {
   getAllSushi,
   getSingleSushi,
   createSushi,
+  updateSushi,
   deleteSushi,
 };

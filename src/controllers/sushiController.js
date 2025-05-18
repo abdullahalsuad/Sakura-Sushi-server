@@ -3,6 +3,7 @@ const {
   getAllSushi,
   getSingleSushi,
   createSushi,
+  updateSushi,
   deleteSushi,
 } = require("../models/sushiModel");
 
@@ -42,6 +43,24 @@ const addSushi = async (req, res) => {
   }
 };
 
+// Controller to update sushi
+const updateSingleSushi = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await updateSushi(new ObjectId(id), req.body);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Sushi not found" });
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error("Error updating sushi:", err);
+    res.status(500).json({ error: "Failed to update sushi" });
+  }
+};
+
 // Controller to delete sushi
 const removeSushi = async (req, res) => {
   try {
@@ -60,5 +79,6 @@ module.exports = {
   getSushi,
   singleSushi,
   addSushi,
+  updateSingleSushi,
   removeSushi,
 };

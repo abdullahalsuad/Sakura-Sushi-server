@@ -5,6 +5,7 @@ const {
   getSushi,
   singleSushi,
   addSushi,
+  updateSingleSushi,
   removeSushi,
 } = require("../controllers/sushiController");
 
@@ -22,6 +23,9 @@ router.post("/sushi", addSushi);
 
 // GET single sushi
 router.get("/sushi/:id", singleSushi);
+
+// Update a sushi by ID
+router.put("/sushi/:id", updateSingleSushi);
 
 // DELETE sushi
 router.delete("/sushi/:id", removeSushi);
